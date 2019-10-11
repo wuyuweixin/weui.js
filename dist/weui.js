@@ -1,6 +1,6 @@
 /*!
  * weui.js v1.1.1 (https://weui.io)
- * Copyright 2017, wechat ui team
+ * Copyright 2019, wechat ui team
  * MIT license
  */
 (function webpackUniversalModuleDefinition(root, factory) {
