@@ -1,104 +1,107 @@
 /*
-* Tencent is pleased to support the open source community by making WeUI.js available.
-* 
-* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
-* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-* with the License. You may obtain a copy of the License at
-* 
-*       http://opensource.org/licenses/MIT
-* 
-* Unless required by applicable law or agreed to in writing, software distributed under the License is
-* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-* either express or implied. See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Tencent is pleased to support the open source community by making WeUI.js available.
+ *
+ * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+ *
+ * Licensed under the MIT License (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *       http://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import $ from '../util/util';
-import topTips from '../topTips/topTips';
+//import topTips from '../topTips/topTips';
+import alert from '../alert/alert';
 
-function _findCellParent(ele){
-    if(!ele || !ele.classList) return null;
-    if(ele.classList.contains('weui-cell')) return ele;
+function _findCellParent(ele) {
+    if (!ele || !ele.classList) return null;
+    if (ele.classList.contains('weui-cell')) return ele;
     return _findCellParent(ele.parentNode);
 }
-function _validate($input, $form, regexp){
+
+function _validate($input, $form, regexp) {
     const input = $input[0], val = $input.val();
 
-    if(input.tagName == 'INPUT' || input.tagName == 'TEXTAREA'){
+    if (input.tagName == 'INPUT' || input.tagName == 'TEXTAREA') {
         let reg = input.getAttribute('pattern') || '';
 
-        if(input.type == 'radio') {
+        if (input.type == 'radio') {
             const radioInputs = $form.find('input[type="radio"][name="' + input.name + '"]');
             for (let i = 0, len = radioInputs.length; i < len; ++i) {
-                if(radioInputs[i].checked) return null;
+                if (radioInputs[i].checked) return null;
             }
             return 'empty';
-        }else if(input.type == 'checkbox'){
-            if(reg){
+        } else if (input.type == 'checkbox') {
+            if (reg) {
                 const checkboxInputs = $form.find('input[type="checkbox"][name="' + input.name + '"]');
                 const regs = reg.replace(/[{\s}]/g, '').split(',');
                 let count = 0;
 
-                if(regs.length != 2){
+                if (regs.length != 2) {
                     throw input.outerHTML + ' regexp is wrong.';
                 }
 
                 checkboxInputs.forEach((checkboxInput) => {
-                    if(checkboxInput.checked) ++count;
+                    if (checkboxInput.checked) ++count;
                 });
 
-                if(!count) return 'empty';
+                if (!count) return 'empty';
 
-                if(regs[1] === ''){ // {0,}
-                    if(count >= parseInt(regs[0])){
+                if (regs[1] === '') { // {0,}
+                    if (count >= parseInt(regs[0])) {
                         return null;
-                    }else{
+                    } else {
                         return 'notMatch';
                     }
-                }else{ // {0,2}
-                    if(parseInt(regs[0]) <= count && count <= parseInt(regs[1])){
+                } else { // {0,2}
+                    if (parseInt(regs[0]) <= count && count <= parseInt(regs[1])) {
                         return null;
-                    }else{
+                    } else {
                         return 'notMatch';
                     }
                 }
-            }else{
+            } else {
                 return input.checked ? null : 'empty';
             }
-        }else if(!$input.val().length){
+        } else if (!$input.val().length) {
             return 'empty';
-        }else if(reg){
-            if(/^REG_/.test(reg)){
-                if(!regexp) throw 'RegExp ' + reg + ' is empty.';
+        } else if (reg) {
+            if (/^REG_/.test(reg)) {
+                if (!regexp) throw 'RegExp ' + reg + ' is empty.';
 
                 reg = reg.replace(/^REG_/, '');
-                if(!regexp[reg]) throw 'RegExp ' + reg + ' has not found.';
+                if (!regexp[reg]) throw 'RegExp ' + reg + ' has not found.';
 
                 reg = regexp[reg];
             }
             return new RegExp(reg).test(val) ? null : 'notMatch';
-        }else{
+        } else {
             return null;
         }
     }
-    else if(val.length){
+    else if (val.length) {
         // 有输入值
         return null;
     }
 
     return 'empty';
 }
-function _showErrorMsg(error){
-    if(error){
+
+function _showErrorMsg(error) {
+    if (error) {
         const $ele = $(error.ele), msg = error.msg,
             tips = $ele.attr(msg + 'Tips') || $ele.attr('tips') || $ele.attr('placeholder');
-        if(tips) topTips(tips);
+        if (tips) alert(tips, {isAndroid: false});//topTips(tips);
 
-        if(error.ele.type == 'checkbox' || error.ele.type == 'radio') return;
+        if (error.ele.type == 'checkbox' || error.ele.type == 'radio') return;
 
         const cellParent = _findCellParent(error.ele);
-        if(cellParent) cellParent.classList.add('weui-cell_warn');
+        if (cellParent) cellParent.classList.add('weui-cell_warn');
     }
 }
 
@@ -161,24 +164,25 @@ function _showErrorMsg(error){
  * });
  * ```
  */
-function validate(selector, callback = $.noop, options = {}){
-    const $eles = $(selector);
-
+function validate(selector, callback = $.noop, options = {}) {
+    const $eles=$(selector);
     $eles.forEach((ele) => {
         const $form = $(ele);
         const $requireds = $form.find('[required]');
-        if(typeof callback != 'function') callback = _showErrorMsg;
+        if (typeof callback != 'function') callback = _showErrorMsg;
 
-        for(let i = 0, len = $requireds.length; i < len; ++i){
-            const $required = $requireds.eq(i), errorMsg = _validate($required, $form, options.regexp), error = {ele: $required[0], msg: errorMsg};
-            if(errorMsg){
-                if(!callback(error)) _showErrorMsg(error);
+        for (let i = 0, len = $requireds.length; i < len; ++i) {
+
+            const $required = $requireds.eq(i), errorMsg = _validate($required, $form, options.regexp),
+                error = {ele: $required[0], msg: errorMsg};
+            if ($required.isHidden()) continue;
+            if (errorMsg) {
+                if (!callback(error)) _showErrorMsg(error);
                 return;
             }
         }
         callback(null);
     });
-
     return this;
 }
 
@@ -196,21 +200,20 @@ function validate(selector, callback = $.noop, options = {}){
  *     }
  * });
  */
-function checkIfBlur(selector, options = {}){
-    const $eles = $(selector);
-
+function checkIfBlur(selector, options = {}) {
+    const $eles=$(selector);
     $eles.forEach((ele) => {
         const $form = $(ele);
         $form.find('[required]')
             .on('blur', function () {
                 // checkbox 和 radio 不做blur检测，以免误触发
-                if(this.type == 'checkbox' || this.type == 'radio') return;
+                if (this.type == 'checkbox' || this.type == 'radio') return;
 
                 const $this = $(this);
-                if($this.val().length < 1) return; // 当空的时候不校验，以防不断弹出toptips
+                if ($this.val().length < 1) return; // 当空的时候不校验，以防不断弹出toptips
 
                 let errorMsg = _validate($this, $form, options.regexp);
-                if(errorMsg){
+                if (errorMsg) {
                     _showErrorMsg({
                         ele: $this[0],
                         msg: errorMsg
@@ -219,10 +222,9 @@ function checkIfBlur(selector, options = {}){
             })
             .on('focus', function () {
                 const cellParent = _findCellParent(this);
-                if(cellParent) cellParent.classList.remove('weui-cell_warn');
+                if (cellParent) cellParent.classList.remove('weui-cell_warn');
             });
     });
-
     return this;
 }
 

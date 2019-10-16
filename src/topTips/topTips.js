@@ -1,13 +1,13 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI.js available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
@@ -36,7 +36,7 @@ let _toptips = null;
  *     className: 'custom-classname',
  *     callback: function(){ console.log('close') }
  * });
- * 
+ *
  * // 主动关闭
  * var $topTips = weui.topTips('请填写正确的字段');
  * $topTips.hide(function() {
@@ -72,7 +72,6 @@ function topTips(content, options = {}) {
         options.callback();
         _toptips = null;
     }
-    function hide(callback){ _hide(callback); }
 
     $('body').append($topTips);
     if(_toptips){
@@ -81,11 +80,11 @@ function topTips(content, options = {}) {
     }
 
     _toptips = {
-        hide: hide
+        hide: _hide
     };
-    _toptips.timeout = setTimeout(hide, options.duration);
+    _toptips.timeout = setTimeout(_hide, options.duration);
 
-    $topTips[0].hide = hide;
+    $topTips[0].hide = _hide;
     return $topTips[0];
 }
 export default topTips;

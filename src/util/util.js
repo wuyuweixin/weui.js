@@ -1,18 +1,18 @@
 /*
-* Tencent is pleased to support the open source community by making WeUI.js available.
-* 
-* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
-* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-* with the License. You may obtain a copy of the License at
-* 
-*       http://opensource.org/licenses/MIT
-* 
-* Unless required by applicable law or agreed to in writing, software distributed under the License is
-* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-* either express or implied. See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Tencent is pleased to support the open source community by making WeUI.js available.
+ *
+ * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+ *
+ * Licensed under the MIT License (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *       http://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import 'element-closest';
 import objectAssign from 'object-assign';
@@ -22,14 +22,25 @@ import $ from 'balajs';
 // 这里只是库内部使用，所以通过文档约束，不做容错校验，达到代码最小化
 
 /* 判断系统 */
-function _detect(ua){
+function _detect(ua) {
     let os = this.os = {}, android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
     if (android) {
         os.android = true;
         os.version = android[2];
     }
 }
+
 _detect.call($, navigator.userAgent);
+
+/*判断是不是Android或iPhone*/
+function _device(ua) {
+    let os = this.os, mobile = ua.match(/.*iPhone.*|.*Android.*/);
+    if (mobile) {
+        os.mobile = true;
+    }
+}
+
+_device.call($, navigator.userAgent);
 
 objectAssign($.fn, {
     /**
@@ -52,7 +63,9 @@ objectAssign($.fn, {
      */
     remove: function () {
         this.forEach(($element) => {
-            $element.parentNode.removeChild($element);
+            if ($element && $element.parentNode) {
+                $element.parentNode.removeChild($element);
+            }
         });
         return this;
     },
@@ -159,8 +172,7 @@ objectAssign($.fn, {
                         if (this.contains(evt.target.closest(selector))) {
                             handler.call(evt.target, evt);
                         }
-                    }
-                    else {
+                    } else {
                         handler.call(this, evt);
                     }
                 });
@@ -187,8 +199,7 @@ objectAssign($.fn, {
                     $element.querySelectorAll(selector).forEach(($element) => {
                         $element.removeEventListener(event, handler);
                     });
-                }
-                else {
+                } else {
                     $element.removeEventListener(event, handler);
                 }
             });
@@ -222,7 +233,7 @@ objectAssign($.fn, {
      * @returns {*}
      */
     val: function () {
-        if(arguments.length){
+        if (arguments.length) {
             this.forEach(($element) => {
                 $element.value = arguments[0];
             });
@@ -231,11 +242,25 @@ objectAssign($.fn, {
         return this[0].value;
     },
     /**
+     * 元素是否可见
+     * @returns {boolean}
+     */
+    isVisible: function () {
+        return !!(this[0].offsetWidth || this[0].offsetHeight || this[0].getClientRects().length);
+    },
+    /**
+     * 元素是否隐藏
+     * @returns {boolean}
+     */
+    isHidden: function () {
+        return !(this[0].offsetWidth || this[0].offsetHeight || this[0].getClientRects().length);
+    },
+    /**
      *
      * @returns {*}
      */
-    attr: function(){
-        if(typeof arguments[0] == 'object'){
+    attr: function () {
+        if (typeof arguments[0] == 'object') {
             const attrsObj = arguments[0];
             const that = this;
             Object.keys(attrsObj).forEach((attr) => {
@@ -246,7 +271,7 @@ objectAssign($.fn, {
             return this;
         }
 
-        if(typeof arguments[0] == 'string' && arguments.length < 2){
+        if (typeof arguments[0] == 'string' && arguments.length < 2) {
             return this[0].getAttribute(arguments[0]);
         }
 

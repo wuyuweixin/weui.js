@@ -1,13 +1,13 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI.js available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
@@ -62,9 +62,9 @@ let _sington;
  * });
  */
 function actionSheet(menus = [], actions = [], options = {}) {
-    if(_sington) return _sington;
+    if (_sington) return _sington;
 
-    const isAndroid = $.os.android;
+    const isAndroid = false;
     options = $.extend({
         menus: menus,
         actions: actions,
@@ -75,10 +75,10 @@ function actionSheet(menus = [], actions = [], options = {}) {
     const $actionSheet = $actionSheetWrap.find('.weui-actionsheet');
     const $actionSheetMask = $actionSheetWrap.find('.weui-mask');
 
-    function _hide(callback){
+    function _hide(callback) {
         _hide = $.noop; // 防止二次调用导致报错
 
-        $actionSheet.addClass(isAndroid ? 'weui-animate-fade-out' : 'weui-animate-slide-down');
+        $actionSheet.addClass(options.isAndroid ? 'weui-animate-fade-out' : 'weui-animate-slide-down');
         $actionSheetMask
             .addClass('weui-animate-fade-out')
             .on('animationend webkitAnimationEnd', function () {
@@ -87,17 +87,22 @@ function actionSheet(menus = [], actions = [], options = {}) {
                 callback && callback();
             });
     }
-    function hide(callback){ _hide(callback); }
+
+    function hide(callback) {
+        _hide(callback);
+    }
 
     $('body').append($actionSheetWrap);
 
     // 这里获取一下计算后的样式，强制触发渲染. fix IOS10下闪现的问题
     $.getStyle($actionSheet[0], 'transform');
 
-    $actionSheet.addClass(isAndroid ? 'weui-animate-fade-in' : 'weui-animate-slide-up');
+    $actionSheet.addClass(options.isAndroid ? 'weui-animate-fade-in' : 'weui-animate-slide-up');
     $actionSheetMask
         .addClass('weui-animate-fade-in')
-        .on('click', function () { hide(); });
+        .on('click', function () {
+            hide();
+        });
     $actionSheetWrap.find('.weui-actionsheet__menu').on('click', '.weui-actionsheet__cell', function (evt) {
         const index = $(this).index();
         menus[index].onClick.call(this, evt);
@@ -113,4 +118,5 @@ function actionSheet(menus = [], actions = [], options = {}) {
     _sington.hide = hide;
     return _sington;
 }
+
 export default actionSheet;

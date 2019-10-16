@@ -1,13 +1,13 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI.js available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
@@ -25,6 +25,7 @@ function Result(item) {
     this.label = item.label;
     this.value = item.value;
 }
+
 Result.prototype.toString = function () {
     return this.value;
 };
@@ -33,7 +34,6 @@ Result.prototype.valueOf = function () {
 };
 
 let _sington;
-let temp = {}; // temp 存在上一次滑动的位置
 
 /**
  * picker 多列选择器。
@@ -180,7 +180,7 @@ let temp = {}; // temp 存在上一次滑动的位置
  */
 function picker() {
     if (_sington) return _sington;
-
+    let temp = {}; // temp 存在上一次滑动的位置
     // 配置项
     const options = arguments[arguments.length - 1];
     const defaults = $.extend({
@@ -213,7 +213,7 @@ function picker() {
     let depth = options.depth || (isMulti ? items.length : util.depthOf(items[0])), groups = '';
 
     // 显示与隐藏的方法
-    function show(){
+    function show() {
         $(defaults.container).append($picker);
 
         // 这里获取一下计算后的样式，强制触发渲染. fix IOS10下闪现的问题
@@ -222,7 +222,8 @@ function picker() {
         $picker.find('.weui-mask').addClass('weui-animate-fade-in');
         $picker.find('.weui-picker').addClass('weui-animate-slide-up');
     }
-    function _hide(callback){
+
+    function _hide(callback) {
         _hide = $.noop; // 防止二次调用导致报错
 
         $picker.find('.weui-mask').addClass('weui-animate-fade-out');
@@ -234,7 +235,10 @@ function picker() {
                 callback && callback();
             });
     }
-    function hide(callback){ _hide(callback); }
+
+    function hide(callback) {
+        _hide(callback);
+    }
 
     // 初始化滚动的方法
     function scroll(items, level) {
@@ -315,8 +319,12 @@ function picker() {
     }
 
     $picker
-        .on('click', '.weui-mask', function () { hide(); })
-        .on('click', '.weui-picker__action', function () { hide(); })
+        .on('click', '.weui-mask', function () {
+            hide();
+        })
+        .on('click', '.weui-picker__action', function () {
+            hide();
+        })
         .on('click', '#weui-picker-confirm', function () {
             defaults.onConfirm(result);
         });
@@ -420,9 +428,9 @@ function datePicker(options) {
     }
 
     const findBy = (array, key, value) => {
-        for(let i = 0, len = array.length; i < len; i++){
+        for (let i = 0, len = array.length; i < len; i++) {
             const obj = array[i];
-            if(obj[key] == value){
+            if (obj[key] == value) {
                 return obj;
             }
         }
@@ -451,15 +459,110 @@ function datePicker(options) {
         if (!M) {
             M = {
                 label: month + '月',
-                value: month,
+                value: (month < 10 ? '0' + month : month),
                 children: []
             };
             Y.children.push(M);
         }
         M.children.push({
             label: day + '日',
-            value: day
+            value: (day < 10 ? '0' + day : day)
         });
+    }
+    while (!obj.done);
+
+    return picker(date, defaults);
+}
+
+/**
+ * 日期时间选择器
+ * @param options
+ */
+function dateTimePicker(options) {
+    const defaults = $.extend({
+        id: 'datePicker',
+        onChange: $.noop,
+        onConfirm: $.noop,
+        start: 2000,
+        end: 2030,
+        cron: '* * *'
+    }, options);
+
+    // 兼容原来的 start、end 传 Number 的用法
+    if (typeof defaults.start === 'number') {
+        defaults.start = new Date(`${defaults.start}-01-01`);
+    }
+    else if (typeof defaults.start === 'string') {
+        defaults.start = new Date(defaults.start);
+    }
+    if (typeof defaults.end === 'number') {
+        defaults.end = new Date(`${defaults.end}-12-31`);
+    }
+    else if (typeof defaults.end === 'string') {
+        defaults.end = new Date(defaults.end);
+    }
+
+    const findBy = (array, key, value) => {
+        for (let i = 0, len = array.length; i < len; i++) {
+            const obj = array[i];
+            if (obj[key] == value) {
+                return obj;
+            }
+        }
+    };
+
+    const date = [];
+    const hours = [];
+    const minutes = [];
+
+    for (let i = 0; i < 60; i++) {
+        minutes.push({
+            label: (i < 10 ? '0' + i : i) + '分',
+            value: (i < 10 ? '0' + i : i)
+        });
+    }
+
+    for (let i = 0; i < 24; i++) {
+        hours.push({
+            label: (i < 10 ? '0' + i : i) + '时',
+            value: (i < 10 ? '0' + i : i),
+            children: minutes
+        });
+    }
+
+    const interval = cron.parse(defaults.cron, defaults.start, defaults.end);
+    let obj;
+    do {
+        obj = interval.next();
+
+        const year = obj.value.getFullYear();
+        const month = obj.value.getMonth() + 1;
+        const day = obj.value.getDate();
+
+        let Y = findBy(date, 'value', year);
+        if (!Y) {
+            Y = {
+                label: year + '年',
+                value: year,
+                children: []
+            };
+            date.push(Y);
+        }
+        let M = findBy(Y.children, 'value', month);
+        if (!M) {
+            M = {
+                label: month + '月',
+                value: month,
+                children: []
+            };
+            Y.children.push(M);
+        }
+        let D = {
+            label: day + '日',
+            value: day,
+            children: hours
+        };
+        M.children.push(D);
     }
     while (!obj.done);
 
@@ -468,5 +571,6 @@ function datePicker(options) {
 
 export default {
     picker,
-    datePicker
+    datePicker,
+    dateTimePicker
 };

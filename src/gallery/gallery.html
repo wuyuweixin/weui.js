@@ -1,8 +1,20 @@
-<div class="weui-gallery <%= className %>">
-    <span class="weui-gallery__img" style="background-image: url(<%= url %>);"></span>
+<div class="weui-gallery weui-plugins <%= className %>">
+
+    <% if(canDelete){ %>
+    <span class="weui-gallery__img"
+          style="background-image: url(<%= url %>);"></span>
+    <% } %>
+
+    <% if(!canDelete){ %>
+    <span class="weui-gallery__img"
+          style="background-image: url(<%= url %>);bottom: 0;"></span>
+    <% } %>
+
+    <% if(canDelete){ %>
     <div class="weui-gallery__opr">
         <a href="javascript:" class="weui-gallery__del">
             <i class="weui-icon-delete weui-icon_gallery-delete"></i>
         </a>
     </div>
+    <% } %>
 </div>
