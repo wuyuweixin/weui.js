@@ -73,73 +73,70 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _alert2 = _interopRequireDefault(_alert);
 
-	var _confirm = __webpack_require__(8);
+	var _alertDelay = __webpack_require__(8);
+
+	var _alertDelay2 = _interopRequireDefault(_alertDelay);
+
+	var _confirm = __webpack_require__(9);
 
 	var _confirm2 = _interopRequireDefault(_confirm);
 
-	var _toast = __webpack_require__(9);
+	var _toast = __webpack_require__(10);
 
 	var _toast2 = _interopRequireDefault(_toast);
 
-	var _loading = __webpack_require__(11);
+	var _loading = __webpack_require__(12);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
-	var _actionSheet = __webpack_require__(13);
+	var _actionSheet = __webpack_require__(14);
 
 	var _actionSheet2 = _interopRequireDefault(_actionSheet);
 
-	var _topTips = __webpack_require__(15);
+	var _topTips = __webpack_require__(16);
 
 	var _topTips2 = _interopRequireDefault(_topTips);
 
-	var _searchBar = __webpack_require__(17);
+	var _searchBar = __webpack_require__(18);
 
 	var _searchBar2 = _interopRequireDefault(_searchBar);
 
-	var _tab = __webpack_require__(18);
+	var _tab = __webpack_require__(19);
 
 	var _tab2 = _interopRequireDefault(_tab);
 
-	var _form = __webpack_require__(19);
+	var _form = __webpack_require__(20);
 
 	var _form2 = _interopRequireDefault(_form);
 
-	var _uploader = __webpack_require__(20);
+	var _uploader = __webpack_require__(21);
 
 	var _uploader2 = _interopRequireDefault(_uploader);
 
-	var _picker = __webpack_require__(24);
+	var _picker = __webpack_require__(25);
 
-	var _gallery = __webpack_require__(30);
+	var _gallery = __webpack_require__(31);
 
 	var _gallery2 = _interopRequireDefault(_gallery);
 
-	var _slider = __webpack_require__(32);
+	var _slider = __webpack_require__(33);
 
 	var _slider2 = _interopRequireDefault(_slider);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _util = __webpack_require__(2);
 
-	/*
-	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
-	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
-	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-	* with the License. You may obtain a copy of the License at
-	* 
-	*       http://opensource.org/licenses/MIT
-	* 
-	* Unless required by applicable law or agreed to in writing, software distributed under the License is
-	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-	* either express or implied. See the License for the specific language governing permissions and
-	* limitations under the License.
-	*/
+	var _util2 = _interopRequireDefault(_util);
+
+	var _list = __webpack_require__(34);
+
+	var _list2 = _interopRequireDefault(_list);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	    dialog: _dialog2.default,
 	    alert: _alert2.default,
+	    alertDelay: _alertDelay2.default,
 	    confirm: _confirm2.default,
 	    toast: _toast2.default,
 	    loading: _loading2.default,
@@ -151,9 +148,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    uploader: _uploader2.default,
 	    picker: _picker.picker,
 	    datePicker: _picker.datePicker,
+	    dateTimePicker: _picker.dateTimePicker,
 	    gallery: _gallery2.default,
-	    slider: _slider2.default
-	};
+	    slider: _slider2.default,
+	    util: _util2.default,
+	    list: _list2.default
+	}; /*
+	   * Tencent is pleased to support the open source community by making WeUI.js available.
+	   *
+	   * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+	   *
+	   * Licensed under the MIT License (the "License"); you may not use this file except in compliance
+	   * with the License. You may obtain a copy of the License at
+	   *
+	   *       http://opensource.org/licenses/MIT
+	   *
+	   * Unless required by applicable law or agreed to in writing, software distributed under the License is
+	   * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+	   * either express or implied. See the License for the specific language governing permissions and
+	   * limitations under the License.
+	   */
+
 	module.exports = exports['default'];
 
 /***/ }),
@@ -178,14 +193,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/*
 	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
+	*
 	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
+	*
 	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
 	* with the License. You may obtain a copy of the License at
-	* 
+	*
 	*       http://opensource.org/licenses/MIT
-	* 
+	*
 	* Unless required by applicable law or agreed to in writing, software distributed under the License is
 	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 	* either express or implied. See the License for the specific language governing permissions and
@@ -222,7 +237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *         onClick: function () { alert('确定') }
 	 *     }]
 	 * });
-	 * 
+	 *
 	 * // 主动关闭
 	 * var $dialog = weui.dialog({...});
 	 * $dialog.hide(function(){
@@ -234,7 +249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (_sington) return _sington;
 
-	    var isAndroid = _util2.default.os.android;
+	    var isAndroid = false;
 	    options = _util2.default.extend({
 	        title: null,
 	        content: '',
@@ -261,6 +276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            callback && callback();
 	        });
 	    }
+
 	    function hide(callback) {
 	        _hide(callback);
 	    }
@@ -283,6 +299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _sington.hide = hide;
 	    return _sington;
 	}
+
 	exports.default = dialog;
 	module.exports = exports['default'];
 
@@ -297,20 +314,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /*
-	                                                                                                                                                                                                                                                                              * Tencent is pleased to support the open source community by making WeUI.js available.
-	                                                                                                                                                                                                                                                                              * 
-	                                                                                                                                                                                                                                                                              * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	                                                                                                                                                                                                                                                                              * 
-	                                                                                                                                                                                                                                                                              * Licensed under the MIT License (the "License"); you may not use this file except in compliance
-	                                                                                                                                                                                                                                                                              * with the License. You may obtain a copy of the License at
-	                                                                                                                                                                                                                                                                              * 
-	                                                                                                                                                                                                                                                                              *       http://opensource.org/licenses/MIT
-	                                                                                                                                                                                                                                                                              * 
-	                                                                                                                                                                                                                                                                              * Unless required by applicable law or agreed to in writing, software distributed under the License is
-	                                                                                                                                                                                                                                                                              * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-	                                                                                                                                                                                                                                                                              * either express or implied. See the License for the specific language governing permissions and
-	                                                                                                                                                                                                                                                                              * limitations under the License.
-	                                                                                                                                                                                                                                                                              */
+	                                                                                                                                                                                                                                                                               * Tencent is pleased to support the open source community by making WeUI.js available.
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               * Licensed under the MIT License (the "License"); you may not use this file except in compliance
+	                                                                                                                                                                                                                                                                               * with the License. You may obtain a copy of the License at
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               *       http://opensource.org/licenses/MIT
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               * Unless required by applicable law or agreed to in writing, software distributed under the License is
+	                                                                                                                                                                                                                                                                               * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+	                                                                                                                                                                                                                                                                               * either express or implied. See the License for the specific language governing permissions and
+	                                                                                                                                                                                                                                                                               * limitations under the License.
+	                                                                                                                                                                                                                                                                               */
 
 	__webpack_require__(3);
 
@@ -336,7 +353,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        os.version = android[2];
 	    }
 	}
+
 	_detect.call(_balajs2.default, navigator.userAgent);
+
+	/*判断是不是Android或iPhone*/
+	function _device(ua) {
+	    var os = this.os,
+	        mobile = ua.match(/.*iPhone.*|.*Android.*/);
+	    if (mobile) {
+	        os.mobile = true;
+	    }
+	}
+
+	_device.call(_balajs2.default, navigator.userAgent);
 
 	(0, _objectAssign2.default)(_balajs2.default.fn, {
 	    /**
@@ -359,7 +388,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    remove: function remove() {
 	        this.forEach(function ($element) {
-	            $element.parentNode.removeChild($element);
+	            if ($element && $element.parentNode) {
+	                $element.parentNode.removeChild($element);
+	            }
 	        });
 	        return this;
 	    },
@@ -540,6 +571,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this;
 	        }
 	        return this[0].value;
+	    },
+	    /**
+	     * 元素是否可见
+	     * @returns {boolean}
+	     */
+	    isVisible: function isVisible() {
+	        return !!(this[0].offsetWidth || this[0].offsetHeight || this[0].getClientRects().length);
+	    },
+	    /**
+	     * 元素是否隐藏
+	     * @returns {boolean}
+	     */
+	    isHidden: function isHidden() {
+	        return !(this[0].offsetWidth || this[0].offsetHeight || this[0].getClientRects().length);
 	    },
 	    /**
 	     *
@@ -840,7 +885,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"<%=className%>\"> <div class=weui-mask></div> <div class=\"weui-dialog <% if(isAndroid){ %> weui-skin_android <% } %>\"> <% if(title){ %> <div class=weui-dialog__hd><strong class=weui-dialog__title><%=title%></strong></div> <% } %> <div class=weui-dialog__bd><%=content%></div> <div class=weui-dialog__ft> <% for(var i = 0; i < buttons.length; i++){ %> <a href=javascript:; class=\"weui-dialog__btn weui-dialog__btn_<%=buttons[i]['type']%>\"><%=buttons[i]['label']%></a> <% } %> </div> </div> </div> ";
+	module.exports = "<div class=\"weui-plugins <%= className %>\"> <div class=weui-mask></div> <div class=\"weui-dialog <% if(isAndroid){ %> weui-skin_android <% } %>\"> <% if(title){ %> <div class=weui-dialog__hd><strong class=weui-dialog__title><%=title%></strong></div> <% } %> <div class=weui-dialog__bd><%=content%></div> <div class=weui-dialog__ft> <% for(var i = 0; i < buttons.length; i++){ %> <a href=javascript:; class=\"weui-dialog__btn weui-dialog__btn_<%=buttons[i]['type']%>\"><%=buttons[i]['label']%></a> <% } %> </div> </div> </div> ";
 
 /***/ }),
 /* 7 */
@@ -942,6 +987,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
+	var _alert = __webpack_require__(7);
+
+	var _alert2 = _interopRequireDefault(_alert);
+
+	var _util = __webpack_require__(2);
+
+	var _util2 = _interopRequireDefault(_util);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * 延迟500ms弹出对话框
+	 * @param content
+	 * @param yes
+	 * @param options
+	 */
+	var alertDelay = function alertDelay() {
+	    var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	    var yes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _util2.default.noop;
+	    var options = arguments[2];
+
+	    var dialog = {};
+	    setTimeout(function () {
+	        dialog.ref = (0, _alert2.default)(content, yes, options);
+	    }, 500);
+	    return dialog;
+	};
+	exports.default = alertDelay;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /*
 	                                                                                                                                                                                                                                                                              * Tencent is pleased to support the open source community by making WeUI.js available.
 	                                                                                                                                                                                                                                                                              * 
@@ -1034,7 +1119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1047,29 +1132,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _toast = __webpack_require__(10);
+	var _toast = __webpack_require__(11);
 
 	var _toast2 = _interopRequireDefault(_toast);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/*
-	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
-	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
-	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-	* with the License. You may obtain a copy of the License at
-	* 
-	*       http://opensource.org/licenses/MIT
-	* 
-	* Unless required by applicable law or agreed to in writing, software distributed under the License is
-	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-	* either express or implied. See the License for the specific language governing permissions and
-	* limitations under the License.
-	*/
-
-	var _sington = void 0;
 
 	/**
 	 * toast 一般用于操作成功时的提示场景
@@ -1087,11 +1154,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     callback: function(){ console.log('close') }
 	 * });
 	 */
+	/*
+	* Tencent is pleased to support the open source community by making WeUI.js available.
+	*
+	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+	*
+	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
+	* with the License. You may obtain a copy of the License at
+	*
+	*       http://opensource.org/licenses/MIT
+	*
+	* Unless required by applicable law or agreed to in writing, software distributed under the License is
+	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+	* either express or implied. See the License for the specific language governing permissions and
+	* limitations under the License.
+	*/
+
 	function toast() {
 	    var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    if (_sington) return _sington;
 
 	    if (typeof options === 'number') {
 	        options = {
@@ -1123,25 +1205,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $mask.addClass('weui-animate-fade-out');
 	        $toast.addClass('weui-animate-fade-out').on('animationend webkitAnimationEnd', function () {
 	            $toastWrap.remove();
-	            _sington = false;
 	            options.callback();
 	        });
 	    }, options.duration);
 
-	    _sington = $toastWrap[0];
-	    return $toastWrap[0];
+	    return { root: $toastWrap[0] };
 	}
+
 	exports.default = toast;
 	module.exports = exports['default'];
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"<%= className %>\"> <div class=weui-mask_transparent></div> <div class=weui-toast> <i class=\"weui-icon_toast weui-icon-success-no-circle\"></i> <p class=weui-toast__content><%=content%></p> </div> </div> ";
+	module.exports = "<div class=\"weui-plugins <%= className %>\"> <div class=weui-mask_transparent></div> <div class=weui-toast> <i class=\"weui-icon_toast weui-icon-success-no-circle\"></i> <p class=weui-toast__content><%=content%></p> </div> </div> ";
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1154,29 +1235,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _loading = __webpack_require__(12);
+	var _loading = __webpack_require__(13);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/*
-	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
-	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
-	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-	* with the License. You may obtain a copy of the License at
-	* 
-	*       http://opensource.org/licenses/MIT
-	* 
-	* Unless required by applicable law or agreed to in writing, software distributed under the License is
-	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-	* either express or implied. See the License for the specific language governing permissions and
-	* limitations under the License.
-	*/
-
-	var _sington = void 0;
 
 	/**
 	 * loading
@@ -1194,16 +1257,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *      });
 	 * }, 3000);
 	 */
+	/*
+	* Tencent is pleased to support the open source community by making WeUI.js available.
+	*
+	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+	*
+	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
+	* with the License. You may obtain a copy of the License at
+	*
+	*       http://opensource.org/licenses/MIT
+	*
+	* Unless required by applicable law or agreed to in writing, software distributed under the License is
+	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+	* either express or implied. See the License for the specific language governing permissions and
+	* limitations under the License.
+	*/
+
 	function loading() {
 	    var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    if (_sington) return _sington;
-
-	    options = _util2.default.extend({
-	        content: content,
-	        className: ''
-	    }, options);
+	    options = _util2.default.extend({ content: content, className: '' }, options);
 
 	    var $loadingWrap = (0, _util2.default)(_util2.default.render(_loading2.default, options));
 	    var $loading = $loadingWrap.find('.weui-toast');
@@ -1211,37 +1285,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    function _hide(callback) {
 	        _hide = _util2.default.noop; // 防止二次调用导致报错
-
 	        $mask.addClass('weui-animate-fade-out');
 	        $loading.addClass('weui-animate-fade-out').on('animationend webkitAnimationEnd', function () {
+	            //动画结束
 	            $loadingWrap.remove();
-	            _sington = false;
 	            callback && callback();
 	        });
-	    }
-	    function hide(callback) {
-	        _hide(callback);
 	    }
 
 	    (0, _util2.default)('body').append($loadingWrap);
 	    $loading.addClass('weui-animate-fade-in');
 	    $mask.addClass('weui-animate-fade-in');
 
-	    _sington = $loadingWrap[0];
-	    _sington.hide = hide;
-	    return _sington;
+	    return { hide: _hide, root: $loadingWrap[0] };
 	}
+
 	exports.default = loading;
 	module.exports = exports['default'];
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"weui-loading_toast <%= className %>\"> <div class=weui-mask_transparent></div> <div class=weui-toast> <i class=\"weui-loading weui-icon_toast\"></i> <p class=weui-toast__content><%=content%></p> </div> </div> ";
+	module.exports = "<div class=\"weui-loading_toast weui-plugins <%= className %>\"> <div class=weui-mask_transparent></div> <div class=weui-toast> <i class=\"weui-loading weui-icon_toast\"></i> <p class=weui-toast__content><%=content%></p> </div> </div> ";
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1254,7 +1323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _actionSheet = __webpack_require__(14);
+	var _actionSheet = __webpack_require__(15);
 
 	var _actionSheet2 = _interopRequireDefault(_actionSheet);
 
@@ -1262,14 +1331,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/*
 	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
+	*
 	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
+	*
 	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
 	* with the License. You may obtain a copy of the License at
-	* 
+	*
 	*       http://opensource.org/licenses/MIT
-	* 
+	*
 	* Unless required by applicable law or agreed to in writing, software distributed under the License is
 	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 	* either express or implied. See the License for the specific language governing permissions and
@@ -1327,7 +1396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (_sington) return _sington;
 
-	    var isAndroid = _util2.default.os.android;
+	    var isAndroid = false;
 	    options = _util2.default.extend({
 	        menus: menus,
 	        actions: actions,
@@ -1341,13 +1410,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function _hide(callback) {
 	        _hide = _util2.default.noop; // 防止二次调用导致报错
 
-	        $actionSheet.addClass(isAndroid ? 'weui-animate-fade-out' : 'weui-animate-slide-down');
+	        $actionSheet.addClass(options.isAndroid ? 'weui-animate-fade-out' : 'weui-animate-slide-down');
 	        $actionSheetMask.addClass('weui-animate-fade-out').on('animationend webkitAnimationEnd', function () {
 	            $actionSheetWrap.remove();
 	            _sington = false;
 	            callback && callback();
 	        });
 	    }
+
 	    function hide(callback) {
 	        _hide(callback);
 	    }
@@ -1357,7 +1427,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // 这里获取一下计算后的样式，强制触发渲染. fix IOS10下闪现的问题
 	    _util2.default.getStyle($actionSheet[0], 'transform');
 
-	    $actionSheet.addClass(isAndroid ? 'weui-animate-fade-in' : 'weui-animate-slide-up');
+	    $actionSheet.addClass(options.isAndroid ? 'weui-animate-fade-in' : 'weui-animate-slide-up');
 	    $actionSheetMask.addClass('weui-animate-fade-in').on('click', function () {
 	        hide();
 	    });
@@ -1376,17 +1446,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _sington.hide = hide;
 	    return _sington;
 	}
+
 	exports.default = actionSheet;
 	module.exports = exports['default'];
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"<% if(isAndroid){ %>weui-skin_android <% } %><%= className %>\"> <div class=weui-mask></div> <div class=weui-actionsheet> <div class=weui-actionsheet__menu> <% for(var i = 0; i < menus.length; i++){ %> <div class=weui-actionsheet__cell><%= menus[i].label %></div> <% } %> </div> <div class=weui-actionsheet__action> <% for(var j = 0; j < actions.length; j++){ %> <div class=weui-actionsheet__cell><%= actions[j].label %></div> <% } %> </div> </div> </div> ";
+	module.exports = "<div class=\"weui-plugins <% if(isAndroid){ %>weui-skin_android <% } %><%= className %>\"> <div class=weui-mask></div> <div class=weui-actionsheet> <div class=weui-actionsheet__menu> <% for(var i = 0; i < menus.length; i++){ %> <div class=weui-actionsheet__cell><%= menus[i].label %></div> <% } %> </div> <div class=weui-actionsheet__action> <% for(var j = 0; j < actions.length; j++){ %> <div class=weui-actionsheet__cell><%= actions[j].label %></div> <% } %> </div> </div> </div> ";
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1399,7 +1470,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _topTips = __webpack_require__(16);
+	var _topTips = __webpack_require__(17);
 
 	var _topTips2 = _interopRequireDefault(_topTips);
 
@@ -1407,14 +1478,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/*
 	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
+	*
 	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
+	*
 	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
 	* with the License. You may obtain a copy of the License at
-	* 
+	*
 	*       http://opensource.org/licenses/MIT
-	* 
+	*
 	* Unless required by applicable law or agreed to in writing, software distributed under the License is
 	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 	* either express or implied. See the License for the specific language governing permissions and
@@ -1440,7 +1511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     className: 'custom-classname',
 	 *     callback: function(){ console.log('close') }
 	 * });
-	 * 
+	 *
 	 * // 主动关闭
 	 * var $topTips = weui.topTips('请填写正确的字段');
 	 * $topTips.hide(function() {
@@ -1478,9 +1549,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        options.callback();
 	        _toptips = null;
 	    }
-	    function hide(callback) {
-	        _hide(callback);
-	    }
 
 	    (0, _util2.default)('body').append($topTips);
 	    if (_toptips) {
@@ -1489,24 +1557,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _toptips = {
-	        hide: hide
+	        hide: _hide
 	    };
-	    _toptips.timeout = setTimeout(hide, options.duration);
+	    _toptips.timeout = setTimeout(_hide, options.duration);
 
-	    $topTips[0].hide = hide;
+	    $topTips[0].hide = _hide;
 	    return $topTips[0];
 	}
 	exports.default = topTips;
 	module.exports = exports['default'];
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"weui-toptips weui-toptips_warn <%= className %>\" style=display:block><%= content %></div> ";
+	module.exports = "<div class=\"weui-toptips weui-toptips_warn weui-plugins <%= className %>\" style=display:block><%= content %></div> ";
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1581,7 +1649,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1645,14 +1713,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	} /*
 	  * Tencent is pleased to support the open source community by making WeUI.js available.
-	  * 
+	  *
 	  * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	  * 
+	  *
 	  * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 	  * with the License. You may obtain a copy of the License at
-	  * 
+	  *
 	  *       http://opensource.org/licenses/MIT
-	  * 
+	  *
 	  * Unless required by applicable law or agreed to in writing, software distributed under the License is
 	  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 	  * either express or implied. See the License for the specific language governing permissions and
@@ -1663,7 +1731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1676,33 +1744,36 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _topTips = __webpack_require__(15);
+	var _alert = __webpack_require__(7);
 
-	var _topTips2 = _interopRequireDefault(_topTips);
+	var _alert2 = _interopRequireDefault(_alert);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/*
-	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
-	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
-	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-	* with the License. You may obtain a copy of the License at
-	* 
-	*       http://opensource.org/licenses/MIT
-	* 
-	* Unless required by applicable law or agreed to in writing, software distributed under the License is
-	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-	* either express or implied. See the License for the specific language governing permissions and
-	* limitations under the License.
-	*/
+	 * Tencent is pleased to support the open source community by making WeUI.js available.
+	 *
+	 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+	 *
+	 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
+	 * with the License. You may obtain a copy of the License at
+	 *
+	 *       http://opensource.org/licenses/MIT
+	 *
+	 * Unless required by applicable law or agreed to in writing, software distributed under the License is
+	 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+	 * either express or implied. See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
 
 	function _findCellParent(ele) {
 	    if (!ele || !ele.classList) return null;
 	    if (ele.classList.contains('weui-cell')) return ele;
 	    return _findCellParent(ele.parentNode);
 	}
+	//import topTips from '../topTips/topTips';
+
+
 	function _validate($input, $form, regexp) {
 	    var input = $input[0],
 	        val = $input.val();
@@ -1772,12 +1843,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return 'empty';
 	}
+
 	function _showErrorMsg(error) {
 	    if (error) {
 	        var $ele = (0, _util2.default)(error.ele),
 	            msg = error.msg,
 	            tips = $ele.attr(msg + 'Tips') || $ele.attr('tips') || $ele.attr('placeholder');
-	        if (tips) (0, _topTips2.default)(tips);
+	        if (tips) (0, _alert2.default)(tips, { isAndroid: false }); //topTips(tips);
 
 	        if (error.ele.type == 'checkbox' || error.ele.type == 'radio') return;
 
@@ -1850,16 +1922,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	    var $eles = (0, _util2.default)(selector);
-
 	    $eles.forEach(function (ele) {
 	        var $form = (0, _util2.default)(ele);
 	        var $requireds = $form.find('[required]');
 	        if (typeof callback != 'function') callback = _showErrorMsg;
 
 	        for (var i = 0, len = $requireds.length; i < len; ++i) {
+
 	            var $required = $requireds.eq(i),
 	                errorMsg = _validate($required, $form, options.regexp),
 	                error = { ele: $required[0], msg: errorMsg };
+	            if ($required.isHidden()) continue;
 	            if (errorMsg) {
 	                if (!callback(error)) _showErrorMsg(error);
 	                return;
@@ -1867,7 +1940,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        callback(null);
 	    });
-
 	    return this;
 	}
 
@@ -1889,7 +1961,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	    var $eles = (0, _util2.default)(selector);
-
 	    $eles.forEach(function (ele) {
 	        var $form = (0, _util2.default)(ele);
 	        $form.find('[required]').on('blur', function () {
@@ -1911,7 +1982,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (cellParent) cellParent.classList.remove('weui-cell_warn');
 	        });
 	    });
-
 	    return this;
 	}
 
@@ -1922,7 +1992,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1935,13 +2005,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _item = __webpack_require__(21);
+	var _item = __webpack_require__(22);
 
 	var _item2 = _interopRequireDefault(_item);
 
-	var _image = __webpack_require__(22);
+	var _image = __webpack_require__(23);
 
-	var _upload = __webpack_require__(23);
+	var _upload = __webpack_require__(24);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
@@ -2218,13 +2288,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 	module.exports = "<li class=\"weui-uploader__file weui-uploader__file_status\" data-id=\"<%= id %>\"> <div class=weui-uploader__file-content> <i class=weui-loading style=width:30px;height:30px></i> </div> </li> ";
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -2456,7 +2526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -2561,7 +2631,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2574,21 +2644,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _cron = __webpack_require__(25);
+	var _cron = __webpack_require__(26);
 
 	var _cron2 = _interopRequireDefault(_cron);
 
-	__webpack_require__(26);
+	__webpack_require__(27);
 
-	var _util3 = __webpack_require__(27);
+	var _util3 = __webpack_require__(28);
 
 	var util = _interopRequireWildcard(_util3);
 
-	var _picker = __webpack_require__(28);
+	var _picker = __webpack_require__(29);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _group = __webpack_require__(29);
+	var _group = __webpack_require__(30);
 
 	var _group2 = _interopRequireDefault(_group);
 
@@ -2598,14 +2668,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/*
 	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
+	*
 	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
+	*
 	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
 	* with the License. You may obtain a copy of the License at
-	* 
+	*
 	*       http://opensource.org/licenses/MIT
-	* 
+	*
 	* Unless required by applicable law or agreed to in writing, software distributed under the License is
 	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 	* either express or implied. See the License for the specific language governing permissions and
@@ -2616,6 +2686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.label = item.label;
 	    this.value = item.value;
 	}
+
 	Result.prototype.toString = function () {
 	    return this.value;
 	};
@@ -2624,7 +2695,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var _sington = void 0;
-	var temp = {}; // temp 存在上一次滑动的位置
 
 	/**
 	 * picker 多列选择器。
@@ -2771,7 +2841,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function picker() {
 	    if (_sington) return _sington;
-
+	    var temp = {}; // temp 存在上一次滑动的位置
 	    // 配置项
 	    var options = arguments[arguments.length - 1];
 	    var defaults = _util2.default.extend({
@@ -2814,6 +2884,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $picker.find('.weui-mask').addClass('weui-animate-fade-in');
 	        $picker.find('.weui-picker').addClass('weui-animate-slide-up');
 	    }
+
 	    function _hide(callback) {
 	        _hide = _util2.default.noop; // 防止二次调用导致报错
 
@@ -2824,6 +2895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            callback && callback();
 	        });
 	    }
+
 	    function hide(callback) {
 	        _hide(callback);
 	    }
@@ -3042,15 +3114,107 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!M) {
 	            M = {
 	                label: month + '月',
-	                value: month,
+	                value: month < 10 ? '0' + month : month,
 	                children: []
 	            };
 	            Y.children.push(M);
 	        }
 	        M.children.push({
 	            label: day + '日',
-	            value: day
+	            value: day < 10 ? '0' + day : day
 	        });
+	    } while (!obj.done);
+
+	    return picker(date, defaults);
+	}
+
+	/**
+	 * 日期时间选择器
+	 * @param options
+	 */
+	function dateTimePicker(options) {
+	    var defaults = _util2.default.extend({
+	        id: 'datePicker',
+	        onChange: _util2.default.noop,
+	        onConfirm: _util2.default.noop,
+	        start: 2000,
+	        end: 2030,
+	        cron: '* * *'
+	    }, options);
+
+	    // 兼容原来的 start、end 传 Number 的用法
+	    if (typeof defaults.start === 'number') {
+	        defaults.start = new Date(defaults.start + '-01-01');
+	    } else if (typeof defaults.start === 'string') {
+	        defaults.start = new Date(defaults.start);
+	    }
+	    if (typeof defaults.end === 'number') {
+	        defaults.end = new Date(defaults.end + '-12-31');
+	    } else if (typeof defaults.end === 'string') {
+	        defaults.end = new Date(defaults.end);
+	    }
+
+	    var findBy = function findBy(array, key, value) {
+	        for (var i = 0, len = array.length; i < len; i++) {
+	            var _obj2 = array[i];
+	            if (_obj2[key] == value) {
+	                return _obj2;
+	            }
+	        }
+	    };
+
+	    var date = [];
+	    var hours = [];
+	    var minutes = [];
+
+	    for (var i = 0; i < 60; i++) {
+	        minutes.push({
+	            label: (i < 10 ? '0' + i : i) + '分',
+	            value: i < 10 ? '0' + i : i
+	        });
+	    }
+
+	    for (var _i = 0; _i < 24; _i++) {
+	        hours.push({
+	            label: (_i < 10 ? '0' + _i : _i) + '时',
+	            value: _i < 10 ? '0' + _i : _i,
+	            children: minutes
+	        });
+	    }
+
+	    var interval = _cron2.default.parse(defaults.cron, defaults.start, defaults.end);
+	    var obj = void 0;
+	    do {
+	        obj = interval.next();
+
+	        var year = obj.value.getFullYear();
+	        var month = obj.value.getMonth() + 1;
+	        var day = obj.value.getDate();
+
+	        var Y = findBy(date, 'value', year);
+	        if (!Y) {
+	            Y = {
+	                label: year + '年',
+	                value: year,
+	                children: []
+	            };
+	            date.push(Y);
+	        }
+	        var M = findBy(Y.children, 'value', month);
+	        if (!M) {
+	            M = {
+	                label: month + '月',
+	                value: month,
+	                children: []
+	            };
+	            Y.children.push(M);
+	        }
+	        var D = {
+	            label: day + '日',
+	            value: day,
+	            children: hours
+	        };
+	        M.children.push(D);
 	    } while (!obj.done);
 
 	    return picker(date, defaults);
@@ -3058,12 +3222,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.default = {
 	    picker: picker,
-	    datePicker: datePicker
+	    datePicker: datePicker,
+	    dateTimePicker: dateTimePicker
 	};
 	module.exports = exports['default'];
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -3272,7 +3437,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3536,7 +3701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -3569,19 +3734,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"<%= className %>\"> <div class=weui-mask></div> <div class=weui-picker> <div class=weui-picker__hd> <a href=javascript:; data-action=cancel class=weui-picker__action>取消</a> <a href=javascript:; data-action=select class=weui-picker__action id=weui-picker-confirm>确定</a> </div> <div class=weui-picker__bd></div> </div> </div> ";
+	module.exports = "<div class=\"weui-plugins <%= className %>\"> <div class=weui-mask></div> <div class=weui-picker> <div class=weui-picker__hd> <a href=javascript:; data-action=cancel class=weui-picker__action>取消</a> <a href=javascript:; data-action=select class=weui-picker__action id=weui-picker-confirm>确定</a> </div> <div class=weui-picker__bd></div> </div> </div> ";
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 	module.exports = "<div class=weui-picker__group> <div class=weui-picker__mask></div> <div class=weui-picker__indicator></div> <div class=weui-picker__content></div> </div>";
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3594,27 +3759,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _gallery = __webpack_require__(31);
+	var _gallery = __webpack_require__(32);
 
 	var _gallery2 = _interopRequireDefault(_gallery);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/*
-	* Tencent is pleased to support the open source community by making WeUI.js available.
-	* 
-	* Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-	* 
-	* Licensed under the MIT License (the "License"); you may not use this file except in compliance
-	* with the License. You may obtain a copy of the License at
-	* 
-	*       http://opensource.org/licenses/MIT
-	* 
-	* Unless required by applicable law or agreed to in writing, software distributed under the License is
-	* distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-	* either express or implied. See the License for the specific language governing permissions and
-	* limitations under the License.
-	*/
+	 * Tencent is pleased to support the open source community by making WeUI.js available.
+	 *
+	 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
+	 *
+	 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
+	 * with the License. You may obtain a copy of the License at
+	 *
+	 *       http://opensource.org/licenses/MIT
+	 *
+	 * Unless required by applicable law or agreed to in writing, software distributed under the License is
+	 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+	 * either express or implied. See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
 
 	var _sington = void 0;
 
@@ -3643,6 +3808,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    options = _util2.default.extend({
 	        className: '',
+	        canDelete: 'true',
 	        onDelete: _util2.default.noop
 	    }, options);
 
@@ -3659,6 +3825,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            callback && callback();
 	        });
 	    }
+
 	    function hide(callback) {
 	        _hide(callback);
 	    }
@@ -3681,13 +3848,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"weui-gallery <%= className %>\"> <span class=weui-gallery__img style=\"background-image:url(<%= url %>)\"></span> <div class=weui-gallery__opr> <a href=javascript: class=weui-gallery__del> <i class=\"weui-icon-delete weui-icon_gallery-delete\"></i> </a> </div> </div> ";
+	module.exports = "<div class=\"weui-gallery weui-plugins <%= className %>\"> <% if(canDelete){ %> <span class=weui-gallery__img style=\"background-image:url(<%= url %>)\"></span> <% } %> <% if(!canDelete){ %> <span class=weui-gallery__img style=\"background-image:url(<%= url %>);bottom:0\"></span> <% } %> <% if(canDelete){ %> <div class=weui-gallery__opr> <a href=javascript: class=weui-gallery__del> <i class=\"weui-icon-delete weui-icon_gallery-delete\"></i> </a> </div> <% } %> </div> ";
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3822,6 +3989,156 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.default = slider;
 	module.exports = exports['default'];
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _util = __webpack_require__(2);
+
+	var _util2 = _interopRequireDefault(_util);
+
+	var _listPicker = __webpack_require__(35);
+
+	var _listPicker2 = _interopRequireDefault(_listPicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _sington = void 0;
+	var temp = []; //上一次选中的项
+
+	/**
+	 * 对选列表
+	 * @param list {array} 列表数组
+	 * @param preCheck {array} 提前选中的项的id数组[1,2,3]
+	 * @param options {object} 列表配置
+	 * @returns {*}
+	 *
+	 *weui.list([{id: 1, name: '张三'}
+	 *, {id: 2, name: '李四'}
+	 *, {id: 3, name: '王五'}
+	 *, {id: 4, name: '赵六'}
+	 *, {id: 5, name: '田七'}
+	 *], [1, 3], {
+	 *       title:'请选择人员',
+	 *       onConfirm: function (result) {
+	 *           weui.alert(JSON.stringify(result), {isAndroid: false});
+	 *       }
+	 *   });
+	 */
+	function list() {
+	    var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var preCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+	    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+	    if (_sington) return _sington;
+	    // 配置项
+	    var defaults = _util2.default.extend({
+	        id: 'default',
+	        className: '',
+	        title: '请选择',
+	        container: 'body',
+	        onConfirm: _util2.default.noop
+	    }, options);
+
+	    var isChecked = void 0;
+	    if (!preCheck && temp.length > 0) {
+	        preCheck = temp;
+	    }
+	    var $picker = (0, _util2.default)(_util2.default.render(_listPicker2.default, defaults));
+
+	    (0, _util2.default)(defaults.container).append($picker);
+
+	    // 显示与隐藏的方法
+	    function show() {
+	        (0, _util2.default)(defaults.container).append($picker);
+
+	        // 这里获取一下计算后的样式，强制触发渲染. fix IOS10下闪现的问题
+	        _util2.default.getStyle($picker[0], 'transform');
+
+	        $picker.find('.weui-mask').addClass('weui-animate-fade-in');
+	        $picker.find('.weui-picker').addClass('weui-animate-slide-up');
+	    }
+
+	    function _hide(callback) {
+	        _hide = _util2.default.noop; // 防止二次调用导致报错
+
+	        $picker.find('.weui-mask').addClass('weui-animate-fade-out');
+	        $picker.find('.weui-picker').addClass('weui-animate-slide-down').on('animationend webkitAnimationEnd', function () {
+	            $picker.remove();
+	            _sington = false;
+	            callback && callback();
+	        });
+	    }
+
+	    function hide(callback) {
+	        _hide(callback);
+	    }
+
+	    function _clear(callback) {
+	        _clear = _util2.default.noop; // 防止二次调用导致报错
+	        $picker.remove();
+	        _sington = false;
+	        callback && callback();
+	    }
+
+	    function clear(cb) {
+	        if (_sington) {
+	            _clear(cb);
+	        }
+	    }
+
+	    var items = list.map(function (item, index) {
+	        if (preCheck.indexOf(item.id) > -1) {
+	            isChecked = 'checked';
+	        } else {
+	            isChecked = '';
+	        }
+	        return '<label class="weui-cell weui-check__label" for="item' + index + '"><div class="weui-cell__hd"><input type="checkbox" ' + isChecked + ' name="assistance" class="weui-check" id="item' + index + '"><i class="weui-icon-checked"></i></div><div class="weui-cell__bd">' + item.name + '</div></label>';
+	    }).join('');
+
+	    $picker.find('#ls').html(items);
+
+	    var boxes = $picker.find('input[type=checkbox]');
+
+	    show();
+
+	    $picker.on('click', '.weui-mask', function () {
+	        hide();
+	    }).on('click', '.weui-picker__action', function () {
+	        hide();
+	    }).on('click', '#weui-picker-confirm', function () {
+	        var result = [];
+	        temp = [];
+	        boxes.forEach(function (value, index) {
+	            if (value.checked === true) {
+	                result.push(list[index]);
+	                temp.push(list[index].id);
+	            }
+	        });
+	        defaults.onConfirm(result);
+	    });
+
+	    _sington = $picker[0];
+	    _sington.hide = hide;
+	    _sington.clear = clear;
+	    return _sington;
+	}
+
+	exports.default = list;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+	module.exports = "<div class=\"weui-plugins <%= className %>\"> <div class=weui-mask></div> <div class=weui-picker> <div class=weui-picker__hd> <a href=javascript:; data-action=cancel class=weui-picker__action>取消</a> <span href=javascript:; class=weui-picker__title><%= title %></span> <a href=javascript:; data-action=select class=weui-picker__action id=weui-picker-confirm>确定</a> </div> <div id=wrapper style=position:relative;background-color:#fff;height:238px;overflow-y:scroll> <div id=ls class=weui-cells_checkbox></div> </div> </div> </div> ";
 
 /***/ })
 /******/ ])
